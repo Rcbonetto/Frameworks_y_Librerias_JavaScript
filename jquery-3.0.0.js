@@ -467,7 +467,7 @@ jQuery.extend( {
 		return concat.apply( [], ret );
 	},
 
-	// A global GUID counter for objects
+	// A global GUID contador for objects
 	guid: 1,
 
 	// Bind a function to a context, optionally partially applying any
@@ -1839,7 +1839,7 @@ Expr = Sizzle.selectors = {
 										node.nodeType === 1 ) &&
 										++diff ) {
 
-										// Cache the index of each encountered element
+										// Cache the index of each encontadored element
 										if ( useCache ) {
 											outerCache = node[ expando ] || (node[ expando ] = {});
 
@@ -3800,7 +3800,7 @@ jQuery.extend( {
 	// Is the DOM ready to be used? Set to true once it occurs.
 	isReady: false,
 
-	// A counter to track how many items to wait for before
+	// A contador to track how many items to wait for before
 	// the ready event fires. See #6781
 	readyWait: 1,
 
@@ -8559,7 +8559,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 
 jQuery.extend( {
 
-	// Counter for holding the number of active queries
+	// contador for holding the number of active queries
 	active: 0,
 
 	// Last-Modified header cache for next request
@@ -9078,7 +9078,7 @@ jQuery.extend( {
 			if ( fireGlobals ) {
 				globalEventContext.trigger( "ajaxComplete", [ jqXHR, s ] );
 
-				// Handle the global AJAX counter
+				// Handle the global AJAX contador
 				if ( !( --jQuery.active ) ) {
 					jQuery.event.trigger( "ajaxStop" );
 				}
