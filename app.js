@@ -54,7 +54,7 @@ function obtenerArregloDulces(arrayType, index) {
 	var dulceCol6 = $('.col-6').children();
 	var dulceCol7 = $('.col-7').children();
 
-	var dulceColumns = $([dulceCol1, dulceCol2, dulceCol3, dulceCol4,
+	var dulcecolumn = $([dulceCol1, dulceCol2, dulceCol3, dulceCol4,
 		dulceCol5, dulceCol6, dulceCol7]);
 
 	if (typeof index === 'number') {
@@ -66,7 +66,7 @@ function obtenerArregloDulces(arrayType, index) {
 	}
 
 	if (arrayType === 'columns') {
-		return dulceColumns;
+		return dulcecolumn;
 	} else if (arrayType === 'rows' && index !== '') {
 		return dulceRow;
 	}
@@ -79,7 +79,7 @@ function dulceRows(index) {
 }
 
 // arreglos de colunmnas
-function dulceColumns(index) {
+function dulcecolumna(index) {
 	var dulceColumn = obtenerArregloDulces('columns', index);
 	return dulceColumn;
 }
@@ -90,7 +90,7 @@ function validacionColumna() {
 		var contador = 0;
 		var posicionDulces = [];
 		var extraposicionDulces = [];
-		var dulceColumn = dulceColumns(j);
+		var dulceColumn = dulcecolumna(j);
 		var comparacionValue = dulceColumn.eq(0);
 		var gap = false;
 		for (var i = 1; i < dulceColumn.length; i++) {
@@ -128,12 +128,16 @@ function validacionColumna() {
 			posicionDulces = [];
 		}
 		contadorDulces = posicionDulces.length;
-		if (contadorDulces >= 3) {
+		if (contadorDulces >= 3) { //verificamos
+			//si hay tres o mas dulces alineados
+			//y borramos los mismos Verticalmente
 			borrarColumnaDulce(posicionDulces, dulceColumn);
 			setScore(contadorDulces);
 		}
 	}
 }
+
+// funcion para borrar los dulces por columnas
 function borrarColumnaDulce(posicionDulces, dulceColumn) {
 	for (var i = 0; i < posicionDulces.length; i++) {
 		dulceColumn.eq(posicionDulces[i]).addClass('delete');
@@ -184,12 +188,16 @@ function validacionFila() {
 			posicionDulces = [];
 		}
 		contadorDulces = posicionDulces.length;
-		if (contadorDulces >= 3) {
+		if (contadorDulces >= 3) { //verificamos
+			//si hay tres o mas dulces alineados
+			//y borramos los mismos horizontalmente
 			deleteHorizontal(posicionDulces, dulceRow);
 			setScore(contadorDulces);
 		}
 	}
 }
+
+//funcion para borrar los dulces por fila
 function deleteHorizontal(posicionDulces, dulceRow) {
 	for (var i = 0; i < posicionDulces.length; i++) {
 		dulceRow[posicionDulces[i]].addClass('delete');
@@ -201,19 +209,19 @@ function setScore(contadorDulces) {
 	var puntos = Number($('#score-text').text());
 	switch (contadorDulces) {
 		case 3:
-			puntos += 25;
+			puntos += 25; //si se alinean tres dulces
 			break;
 		case 4:
-			puntos += 50;
+			puntos += 50; //si se alinean cuatro dulces
 			break;
 		case 5:
-			puntos += 75;
+			puntos += 75; // si se alinean cinco dulces
 			break;
 		case 6:
-			puntos += 100;
+			puntos += 100; //si se alinean seis dulces
 			break;
 		case 7:
-			puntos += 200;
+			puntos += 200; //si se alinean siete dulces
 	}
 	$('#score-text').text(puntos);
 }
@@ -223,6 +231,7 @@ function controlTablero() {
 	llenarTablero();
 }
 
+// Realizamos el llenado de tablero con los dulces
 function llenarTablero() {
 	var top = 6;
 	var column = $('[class^="col-"]');
@@ -254,7 +263,7 @@ function seteoValidacion() {
 }
 
 
-//punto 7. interacción del usuario con el elemento caramelo es drag and drop
+//punto siete - interacción del usuario con el elemento caramelo es drag and drop
 //efecto de movimiento entre los caramelos
 function sumaEventosDulces() {
 	$('img').draggable({
