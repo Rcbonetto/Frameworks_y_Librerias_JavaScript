@@ -54,8 +54,9 @@ function obtenerArregloDulces(arrayType, index) {
 	var dulceCol6 = $('.col-6').children();
 	var dulceCol7 = $('.col-7').children();
 
-	var dulcecolumn = $([dulceCol1, dulceCol2, dulceCol3, dulceCol4,
-		dulceCol5, dulceCol6, dulceCol7]);
+	var matchColumns = $([dulceCol1, dulceCol2, dulceCol3, dulceCol4,
+		dulceCol5, dulceCol6, dulceCol7
+	]);
 
 	if (typeof index === 'number') {
 		var dulceRow = $([dulceCol1.eq(index), dulceCol2.eq(index), dulceCol3.eq(index),
@@ -66,7 +67,7 @@ function obtenerArregloDulces(arrayType, index) {
 	}
 
 	if (arrayType === 'columns') {
-		return dulcecolumn;
+		return matchColumns;
 	} else if (arrayType === 'rows' && index !== '') {
 		return dulceRow;
 	}
@@ -79,74 +80,70 @@ function dulceRows(index) {
 }
 
 // arreglos de colunmnas
-function dulcecolumna(index) {
-	var dulceColumn = obtenerArregloDulces('columns', index);
-	return dulceColumn;
+function matchColumns(index) {
+	var matchColumn = obtenerArregloDulces('columns');
+	return matchColumn[index];
 }
 
 //item tres - Valida si hay dulces que se eliminarán en una columna
 function validacionColumna() {
-	for (var j = 0; j < 7; j++) {
+	for (var j = 0; j < 7; j++) { //determinamos la cantidad de columnas
 		var contador = 0;
-		var posicionDulces = [];
-		var extraposicionDulces = [];
-		var dulceColumn = dulcecolumna(j);
-		var comparacionValue = dulceColumn.eq(0);
+		var matchPosition = [];
+		var extramatchPosition = [];
+		var matchColumn = matchColumns(j);
+		var comparisonValue = matchColumn.eq(0);
 		var gap = false;
-		for (var i = 1; i < dulceColumn.length; i++) {
-			var srcComparacion = comparacionValue.attr('src');
-			var srcDulce = dulceColumn.eq(i).attr('src');
+		for (var i = 1; i < matchColumn.length; i++) {
+			var srcComparison = comparisonValue.attr('src');
+			var srcmatch = matchColumn.eq(i).attr('src');
 
-			if (srcComparacion != srcDulce) {
-				if (posicionDulces.length >= 3) {
+			if (srcComparison != srcmatch) {
+				if (matchPosition.length >= 3) {
 					gap = true;
 				} else {
-					posicionDulces = [];
+					matchPosition = [];
 				}
 				contador = 0;
 			} else {
 				if (contador == 0) {
 					if (!gap) {
-						posicionDulces.push(i - 1);
+						matchPosition.push(i - 1);
 					} else {
-						extraposicionDulces.push(i - 1);
+						extramatchPosition.push(i - 1);
 					}
 				}
 				if (!gap) {
-					posicionDulces.push(i);
+					matchPosition.push(i);
 				} else {
-					extraposicionDulces.push(i);
+					extramatchPosition.push(i);
 				}
 				contador += 1;
 			}
-			comparacionValue = dulceColumn.eq(i);
+			comparisonValue = matchColumn.eq(i);
 		}
-		if (extraposicionDulces.length > 2) {
-			posicionDulces = $.merge(posicionDulces, extraposicionDulces);
+		if (extramatchPosition.length > 2) {
+			matchPosition = $.merge(matchPosition, extramatchPosition);
 		}
-		if (posicionDulces.length <= 2) {
-			posicionDulces = [];
+		if (matchPosition.length <= 2) {
+			matchPosition = [];
 		}
-		contadorDulces = posicionDulces.length;
-		if (contadorDulces >= 3) { //verificamos
-			//si hay tres o mas dulces alineados
-			//y borramos los mismos Verticalmente
-			borrarColumnaDulce(posicionDulces, dulceColumn);
-			setScore(contadorDulces);
+		matchCount = matchPosition.length;
+		if (matchCount >= 3) {
+			deleteColumnmatch(matchPosition, matchColumn);
+			setScore(matchCount);
 		}
 	}
 }
-
-// funcion para borrar los dulces por columnas
-function borrarColumnaDulce(posicionDulces, dulceColumn) {
-	for (var i = 0; i < posicionDulces.length; i++) {
-		dulceColumn.eq(posicionDulces[i]).addClass('delete');
+function deleteColumnmatch(matchPosition, matchColumn) {
+	for (var i = 0; i < matchPosition.length; i++) {
+		matchColumn.eq(matchPosition[i]).addClass('delete');
 	}
 }
 
 // Valida si hay dulces que deben eliminarse en una fila
 function validacionFila() {
-	for (var j = 0; j < 6; j++) {
+	for (var j = 0; j < 7; j++) { // determinamos la cantidad de filas
 		var contador = 0;
 		var posicionDulces = [];
 		var extraposicionDulces = [];
@@ -233,7 +230,7 @@ function controlTablero() {
 
 // Realizamos el llenado de tablero con los dulces
 function llenarTablero() {
-	var top = 6;
+	var top = 7;
 	var column = $('[class^="col-"]');
 
 	column.each(function () {
@@ -317,7 +314,6 @@ function intercambioDulce(event, arrastroDulce) {
 			updateMoves();
 		}
 	}, 500);
-
 }
 
 function controlTableroPro(result) {
